@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+<header>
+    <!-- Верхняя шапка -->
+    <h1>Rick and Morty</h1>
+</header>
+
+<section>
+    <!-- Блоки с картинками и названиями героев -->
+    <div class="container">
+        <div class="hero-row">
+            <div th:each="r: ${results}" class="hero">
+                <a th:href="@{~/rikky/person/{id}(id=${r.id})}">
+                <img class="hero-image" th:src="${r.image}" alt="Hero Image">
+                <h2 class="hero-name" th:text="${r.name}"></h2>
+                </a>
+            </div>
+        </div>
+        <div class="navigate">
+            <a  th:each="i : ${#numbers.sequence(1,info.pages,1)}"
+                th:text="${i}"
+                th:href="@{~/rikky/page/{page}(page=${i})}"
+                th:class="${i==page} ? current : other"></a>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>
