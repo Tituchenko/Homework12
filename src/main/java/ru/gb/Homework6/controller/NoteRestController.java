@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.Homework6.models.Note;
+import ru.gb.Homework6.services.FileGateway;
 import ru.gb.Homework6.services.NoteServices;
+import ru.gb.Homework6.services.NoteServicesExtended;
 
 import java.util.List;
 import java.util.Locale;
@@ -16,6 +18,9 @@ import java.util.Locale;
 @RequestMapping("/note")
 public class NoteRestController {
     private final NoteServices noteServices;
+    private final FileGateway fileGateway;
+
+    private final NoteServicesExtended noteServicesExtended;
 
     /**
      * Добавление замеки
@@ -23,7 +28,8 @@ public class NoteRestController {
      */
     @PostMapping
     public ResponseEntity<Note> addNote(@RequestBody Note note){
-        return new ResponseEntity<>(noteServices.addNote(note), HttpStatus.CREATED);
+        fileGateway.writeToFile(note.getTitle() + ".txt", note.toString());
+        return new ResponseEntity<>(noteServicesExtended.addNote(note), HttpStatus.CREATED);
     }
 
     /**
